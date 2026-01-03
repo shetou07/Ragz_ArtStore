@@ -1,0 +1,8 @@
+{
+  "name": "ArtSpace - Curated Digital Gallery",
+  "description": "A high-end platform for discovering unique art, featuring a Live AI curator and intelligent artwork analysis.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
