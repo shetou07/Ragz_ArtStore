@@ -57,7 +57,7 @@ const GalleryView: React.FC<GalleryViewProps> = ({ artworks, onArtworkClick }) =
                   alt={artwork.title} 
                   className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" 
                   loading="lazy" 
-                  src={artwork.imageUrl || (artwork as any).image_url}
+                  src={artwork.image_url}
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <button className="bg-white/90 backdrop-blur text-[#111418] px-5 py-2 rounded-full font-medium text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
@@ -72,7 +72,7 @@ const GalleryView: React.FC<GalleryViewProps> = ({ artworks, onArtworkClick }) =
                     <p className="text-[#637588] dark:text-gray-400 text-sm mt-0.5">{artwork.artist}</p>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-primary font-bold text-sm">{artwork.price.toLocaleString()} RWF</span>
+                    <span className="text-primary font-bold text-sm">{artwork.price?.toLocaleString()} RWF</span>
                   </div>
                 </div>
               </div>

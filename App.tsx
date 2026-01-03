@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ARTWORKS as MOCK_ARTWORKS, ARTISTS as MOCK_ARTISTS } from './constants';
 import { ViewType, Artwork, Artist } from './types';
 import { supabase } from './lib/supabase';
@@ -24,39 +24,39 @@ const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Fetch initial data from Supabase
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const { data: artworksData, error: artworksError } = await supabase
-          .from('artworks')
-          .select('*')
-          .order('dateAdded', { ascending: false });
+  // Reusable fetch function to keep public view in sync
+  const refreshData = useCallback(async (silent = false) => {
+    if (!silent) setIsLoading(true);
+    try {
+      const { data: artworksData, error: artworksError } = await supabase
+        .from('artworks')
+        .select('*')
+        .order('dateAdded', { ascending: false });
 
-        const { data: artistsData, error: artistsError } = await supabase
-          .from('artists')
-          .select('*');
+      const { data: artistsData, error: artistsError } = await supabase
+        .from('artists')
+        .select('*');
 
-        if (artworksError || artistsError) {
-          console.warn('Database fetch failed, falling back to mock data', artworksError || artistsError);
-          setArtworks(MOCK_ARTWORKS);
-          setArtists(MOCK_ARTISTS);
-        } else {
-          setArtworks(artworksData || []);
-          setArtists(artistsData || []);
-        }
-      } catch (err) {
-        console.error('Error fetching from Supabase:', err);
+      if (artworksError || artistsError) {
+        console.warn('Database fetch failed, falling back to mock data');
         setArtworks(MOCK_ARTWORKS);
         setArtists(MOCK_ARTISTS);
-      } finally {
-        setIsLoading(false);
+      } else {
+        setArtworks(artworksData || []);
+        setArtists(artistsData || []);
       }
-    };
-
-    fetchData();
+    } catch (err) {
+      console.error('Error fetching from Supabase:', err);
+      setArtworks(MOCK_ARTWORKS);
+      setArtists(MOCK_ARTISTS);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    refreshData();
+  }, [refreshData]);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -128,10 +128,10 @@ const App: React.FC = () => {
           <AdminUpload 
             artists={artists}
             onCancel={() => navigateTo('AdminDashboard')} 
-            onPublished={() => {
-              // Re-fetch data would be better here, but for now we navigate
+            onPublished={async () => {
+              // Refresh data silently and navigate back
+              await refreshData(true);
               navigateTo('AdminDashboard');
-              window.location.reload(); 
             }} 
           /> : 
           <AdminLogin onLogin={() => setIsLoggedIn(true)} onBack={() => navigateTo('Gallery')} />;

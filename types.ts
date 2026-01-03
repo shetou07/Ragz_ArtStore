@@ -6,7 +6,7 @@ export interface Artwork {
   artistId: string;
   price: number;
   category: 'Paintings' | 'Photography' | 'Digital' | 'Sculpture' | 'All Art';
-  imageUrl: string;
+  image_url: string; // Standardized to match Supabase column naming
   description: string;
   medium: string;
   dimensions: string;

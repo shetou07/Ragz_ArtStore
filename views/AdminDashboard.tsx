@@ -90,7 +90,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ artworks, onUploadClick
                       <td className="p-4">
                         <div className="flex items-center gap-4">
                           <div className="h-16 w-16 rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-700 border border-slate-200">
-                            <img className="h-full w-full object-cover" src={artwork.imageUrl || (artwork as any).image_url} alt="" />
+                            <img className="h-full w-full object-cover" src={artwork.image_url} alt="" />
                           </div>
                           <div className="flex flex-col">
                             <span className="font-medium text-slate-900 dark:text-white line-clamp-1">{artwork.title}</span>

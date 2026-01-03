@@ -79,7 +79,7 @@ const ArtistView: React.FC<ArtistViewProps> = ({ artist, artworks, onArtworkClic
             {latestWorks.map(work => (
               <div key={work.id} className="group cursor-pointer" onClick={() => onArtworkClick(work.id)}>
                 <div className="w-full aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden mb-3">
-                  <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url("${work.imageUrl || (work as any).image_url}")` }}></div>
+                  <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url("${work.image_url}")` }}></div>
                 </div>
                 <h4 className="font-bold text-[#111418] dark:text-white group-hover:text-primary transition-colors">{work.title}</h4>
                 <p className="text-sm text-[#637588] dark:text-gray-400">{work.medium}, {work.year}</p>

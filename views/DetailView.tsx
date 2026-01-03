@@ -14,8 +14,7 @@ const DetailView: React.FC<DetailViewProps> = ({ artwork, artists, artworks, onA
   if (!artwork) return null;
   
   const artist = artists.find(a => a.id === artwork.artistId);
-  const moreFromArtist = artworks.filter(a => a.artistId === artwork.artistId && a.id !== artwork.id).slice(0, 4);
-  const displayImageUrl = artwork.imageUrl || (artwork as any).image_url;
+  const displayImageUrl = artwork.image_url;
 
   return (
     <div className="fade-in max-w-[1280px] mx-auto py-10 px-4 lg:px-10">
