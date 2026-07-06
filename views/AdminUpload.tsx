@@ -83,7 +83,8 @@ const AdminUpload: React.FC<AdminUploadProps> = ({ artists, onCancel, onPublishe
       onPublished();
     } catch (err) {
       console.error('Publishing failed:', err);
-      alert('Error publishing artwork. Check if the "art-assets" bucket exists in Supabase.');
+      const message = err instanceof Error ? err.message : JSON.stringify(err);
+      alert(`Error publishing artwork: ${message}.\nCheck whether the "art-assets" bucket exists and your Supabase keys are correct.`);
     } finally {
       setIsUploading(false);
     }
